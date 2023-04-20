@@ -48,6 +48,10 @@ def get_adj_split(adj, val_prop=0.05, test_prop=0.1):
     val_edges, test_edges, train_edges = pos_edges[:n_val], pos_edges[n_val:n_test + n_val], pos_edges[n_test + n_val:]
     val_edges_false, test_edges_false = neg_edges[:n_val], neg_edges[n_val:n_test + n_val]
     train_edges_false = np.concatenate([neg_edges, val_edges, test_edges], axis=0)
+
+    ####Do topology vectorization for each partitioned graph...
+#    train_vec = TopologicalVectorization(train_edges)
+
     return train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false
 
 

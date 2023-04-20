@@ -4,6 +4,7 @@ import loaddatas as lds
 import torch.nn.functional as F
 import numpy as np
 import SIMBLOCKGNN as SIMGNN
+#import ..Dowker
 from sklearn.metrics import roc_auc_score,average_precision_score
 from torch.nn.init import xavier_normal_ as xavier
 
