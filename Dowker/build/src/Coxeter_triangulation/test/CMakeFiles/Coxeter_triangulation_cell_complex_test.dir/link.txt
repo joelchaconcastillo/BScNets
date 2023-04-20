@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/Coxeter_triangulation_cell_complex_test.dir/cell_complex_test.cpp.o -o Coxeter_triangulation_cell_complex_test  /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 

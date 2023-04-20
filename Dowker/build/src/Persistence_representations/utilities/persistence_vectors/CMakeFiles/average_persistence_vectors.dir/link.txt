@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/average_persistence_vectors.dir/average_persistence_vectors.cpp.o -o average_persistence_vectors 

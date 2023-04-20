@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/plot_persistence_vectors.dir/plot_persistence_vectors.cpp.o -o plot_persistence_vectors 

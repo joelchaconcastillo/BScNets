@@ -5,6 +5,10 @@ import torch.nn.functional as F
 import numpy as np
 import SIMBLOCKGNN as SIMGNN
 #import ..Dowker
+import sys
+sys.path.append('./../Dowker/')
+sys.path.append('../Dowker/build/src/python/')
+import dowker
 from sklearn.metrics import roc_auc_score,average_precision_score
 from torch.nn.init import xavier_normal_ as xavier
 

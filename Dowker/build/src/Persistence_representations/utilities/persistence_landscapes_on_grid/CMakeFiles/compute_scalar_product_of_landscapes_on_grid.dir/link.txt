@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/compute_scalar_product_of_landscapes_on_grid.dir/compute_scalar_product_of_landscapes_on_grid.cpp.o -o compute_scalar_product_of_landscapes_on_grid 

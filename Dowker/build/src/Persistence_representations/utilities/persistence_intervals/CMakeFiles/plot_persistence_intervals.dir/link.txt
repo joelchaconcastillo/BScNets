@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/plot_persistence_intervals.dir/plot_persistence_intervals.cpp.o -o plot_persistence_intervals 

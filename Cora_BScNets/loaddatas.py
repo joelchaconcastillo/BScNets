@@ -23,6 +23,7 @@ def loaddatas(d_name):
 
 
 def get_edges_split(data, val_prop = 0.2, test_prop = 0.2):
+    print(data.x)
     g = nx.Graph()
     g.add_nodes_from([i for i in range(len(data.y))])
     _edge_index_ = np.array((data.edge_index))
@@ -49,8 +50,17 @@ def get_adj_split(adj, val_prop=0.05, test_prop=0.1):
     val_edges_false, test_edges_false = neg_edges[:n_val], neg_edges[n_val:n_test + n_val]
     train_edges_false = np.concatenate([neg_edges, val_edges, test_edges], axis=0)
 
-    ####Do topology vectorization for each partitioned graph...
-#    train_vec = TopologicalVectorization(train_edges)
+    ####Topology vectorization for each graph...
+    ##TODO: weights are missing put them here!!!
+    train_positive_TDA_vec = TopologicalVectorization(train_edges)
+    train_false_TDA_vec = TopologicalVectorization(train_edges_false)
+#    train_TDA_vec = TopologicalVectorization(train_edges)
+    val_positive_TDA_vec = TopologicalVectorization(val_edges)
+    val_false_TDA_vec = TopologicalVectorization(val_edges_false)
+#    val_TDA_vec = TopologicalVectorization(val_edges)
+    test_TDA_vec = TopologicalVectorization(test_edges)
+    test_false_TDA_vec = TopologicalVectorization(test_edges_false)
+#   test_TDA_vec = TopologicalVectorization(test_edges)
 
     return train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false
 

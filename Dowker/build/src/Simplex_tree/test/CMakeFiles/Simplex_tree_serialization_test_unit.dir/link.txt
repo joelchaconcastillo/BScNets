@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/Simplex_tree_serialization_test_unit.dir/simplex_tree_serialization_unit_test.cpp.o -o Simplex_tree_serialization_test_unit  /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 

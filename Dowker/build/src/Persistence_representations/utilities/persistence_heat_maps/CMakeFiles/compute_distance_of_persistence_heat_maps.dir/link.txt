@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/compute_distance_of_persistence_heat_maps.dir/compute_distance_of_persistence_heat_maps.cpp.o -o compute_distance_of_persistence_heat_maps 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/periodic_cubical_complex_persistence.dir/periodic_cubical_complex_persistence.cpp.o -o periodic_cubical_complex_persistence 

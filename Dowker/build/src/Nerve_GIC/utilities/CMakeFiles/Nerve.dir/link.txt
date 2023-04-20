@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/Nerve.dir/Nerve.cpp.o -o Nerve 

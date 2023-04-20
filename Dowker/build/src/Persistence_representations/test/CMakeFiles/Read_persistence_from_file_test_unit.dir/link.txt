@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/Read_persistence_from_file_test_unit.dir/read_persistence_from_file_test.cpp.o -o Read_persistence_from_file_test_unit  /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 

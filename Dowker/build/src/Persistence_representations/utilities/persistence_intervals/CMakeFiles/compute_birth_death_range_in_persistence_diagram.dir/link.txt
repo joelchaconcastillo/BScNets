@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/compute_birth_death_range_in_persistence_diagram.dir/compute_birth_death_range_in_persistence_diagram.cpp.o -o compute_birth_death_range_in_persistence_diagram 

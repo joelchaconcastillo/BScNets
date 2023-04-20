@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/compute_number_of_dominant_intervals.dir/compute_number_of_dominant_intervals.cpp.o -o compute_number_of_dominant_intervals 

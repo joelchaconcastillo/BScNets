@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/compute_distance_of_persistence_vectors.dir/compute_distance_of_persistence_vectors.cpp.o -o compute_distance_of_persistence_vectors 

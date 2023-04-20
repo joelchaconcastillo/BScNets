@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/Bitmap_cubical_complex_test_unit.dir/Bitmap_test.cpp.o -o Bitmap_cubical_complex_test_unit  /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/VoronoiGIC.dir/VoronoiGIC.cpp.o -o VoronoiGIC 

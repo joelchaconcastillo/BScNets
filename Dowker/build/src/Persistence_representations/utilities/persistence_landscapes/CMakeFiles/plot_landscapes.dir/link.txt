@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -pedantic -O3 -DNDEBUG CMakeFiles/plot_landscapes.dir/plot_landscapes.cpp.o -o plot_landscapes 
