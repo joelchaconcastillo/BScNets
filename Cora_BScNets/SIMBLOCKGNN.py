@@ -86,6 +86,7 @@ class BlockNet(torch.nn.Module):
         s_emb_sim = s_emb_sim.renorm_(2, 0, 1)
 
         s_emb_sim_in = s_emb_sim[total_edges[:, 0]]
+        print(s_emb_sim_in.shape, type)
         s_emb_sim_out = s_emb_sim[total_edges[:, 1]]
 
         d_sim = (s_emb_sim_in - s_emb_sim_out).pow(2)
@@ -188,6 +189,7 @@ def call(data,name,num_features,num_classes):
     # edge index sampling
     random_edge_num = 2500
     indices = np.random.choice((data.edge_index).size(1), (random_edge_num,), replace=False)
+    print(indices.shape)
     indices = np.sort(indices)
     sample_data_edge_index = data.edge_index[:, indices]
 

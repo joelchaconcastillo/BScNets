@@ -9,6 +9,9 @@ import numpy as np
 import scipy.sparse as sp
 import torch_geometric.datasets
 from incidence_matrix import get_faces, incidence_matrices
+sys.path.append('./../Dowker/')
+sys.path.append('../Dowker/build/src/python/')
+import dowker
 
 def loaddatas(d_name):
     if d_name in ["PPI"]:
@@ -23,7 +26,7 @@ def loaddatas(d_name):
 
 
 def get_edges_split(data, val_prop = 0.2, test_prop = 0.2):
-    print(data.x)
+    print(data)
     g = nx.Graph()
     g.add_nodes_from([i for i in range(len(data.y))])
     _edge_index_ = np.array((data.edge_index))
@@ -52,15 +55,15 @@ def get_adj_split(adj, val_prop=0.05, test_prop=0.1):
 
     ####Topology vectorization for each graph...
     ##TODO: weights are missing put them here!!!
-    train_positive_TDA_vec = TopologicalVectorization(train_edges)
-    train_false_TDA_vec = TopologicalVectorization(train_edges_false)
-#    train_TDA_vec = TopologicalVectorization(train_edges)
-    val_positive_TDA_vec = TopologicalVectorization(val_edges)
-    val_false_TDA_vec = TopologicalVectorization(val_edges_false)
-#    val_TDA_vec = TopologicalVectorization(val_edges)
-    test_TDA_vec = TopologicalVectorization(test_edges)
-    test_false_TDA_vec = TopologicalVectorization(test_edges_false)
-#   test_TDA_vec = TopologicalVectorization(test_edges)
+##    train_positive_TDA_vec = TopologicalVectorization(train_edges)
+##    train_false_TDA_vec = TopologicalVectorization(train_edges_false)
+###    train_TDA_vec = TopologicalVectorization(train_edges)
+##    val_positive_TDA_vec = TopologicalVectorization(val_edges)
+##    val_false_TDA_vec = TopologicalVectorization(val_edges_false)
+###    val_TDA_vec = TopologicalVectorization(val_edges)
+##    test_TDA_vec = TopologicalVectorization(test_edges)
+##    test_false_TDA_vec = TopologicalVectorization(test_edges_false)
+###   test_TDA_vec = TopologicalVectorization(test_edges)
 
     return train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false
 
