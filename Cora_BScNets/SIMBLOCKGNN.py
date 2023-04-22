@@ -96,11 +96,18 @@ class BlockNet(torch.nn.Module):
         g_emb = g_emb.renorm_(2,0,1)
         alpha = 1.0
         beta = 0.1
+        eta = 0.1
 
         g_emb_in = g_emb[total_edges[:, 0]]
         g_emb_out = g_emb[total_edges[:, 1]]
         g_sqdist = (g_emb_in - g_emb_out).pow(2)
-        sqdist = self.leakyrelu(self.linear_1(torch.cat((alpha * g_sqdist, beta * d_sim), dim=1)))
+
+##        pd_in = 
+##        pd_out = 
+##        pd_sim = 
+        ##########
+
+        sqdist = self.leakyrelu(self.linear_1(torch.cat((alpha * g_sqdist, beta * d_sim, eta * ), dim=1)))
         sqdist = torch.abs(self.linear(sqdist)).reshape(-1)
         sqdist = torch.clamp(sqdist, min=0, max=40)
         prob = 1. / (torch.exp((sqdist - 2.0) / 1.0) + 1.0)
