@@ -44,18 +44,25 @@ class BlockNet(torch.nn.Module):
     def s_encode(self,data,g_emb,type="train"):
         if type == 'train':
             edges_pos = data.total_edges[:data.train_pos]
+            edges_pos_tda = data.total_edges_tda[:data.train_pos]
             index = np.random.randint(0, data.train_neg, data.train_pos)
             edges_neg = data.total_edges[data.train_pos:data.train_pos + data.train_neg][index]
+            print(data.total_edges_tda.shape,"___")
+            edges_neg_tda = data.total_edges_tda[data.train_pos:data.train_pos + data.train_neg][index]
             total_edges = np.concatenate((edges_pos,edges_neg))
+            total_edges_tda = np.concatenate((edges_pos_tda, edges_neg_tda))
+
             edges_y = torch.cat((data.total_edges_y[:data.train_pos],data.total_edges_y[data.train_pos:data.train_pos + data.train_neg][index]))
+
 
         elif type == 'val':
             total_edges =  data.total_edges[data.train_pos+data.train_neg:data.train_pos+data.train_neg+data.val_pos+data.val_neg]
+            total_edges_tda =  data.total_edges_tda[data.train_pos+data.train_neg:data.train_pos+data.train_neg+data.val_pos+data.val_neg]
             edges_y = data.total_edges_y[data.train_pos+data.train_neg:data.train_pos+data.train_neg+data.val_pos+data.val_neg]
 
         elif type == 'test':
-            total_edges = data.total_edges[
-                          data.train_pos + data.train_neg + data.val_pos + data.val_neg:]
+            total_edges = data.total_edges[data.train_pos + data.train_neg + data.val_pos + data.val_neg:]
+            total_edges_tda = data.total_edges_tda[data.train_pos + data.train_neg + data.val_pos + data.val_neg:]
             edges_y = data.total_edges_y[
                       data.train_pos + data.train_neg + data.val_pos + data.val_neg :]
 
@@ -83,7 +90,7 @@ class BlockNet(torch.nn.Module):
         embeddings_sim = torch.matmul(x, self.embeddings_sim)
         s_emb_sim_ = torch.matmul(embeddings_sim, sim_block)
         s_emb_sim = torch.matmul(s_emb_sim_, self.weights_sim)
-        s_emb_sim = s_emb_sim.renorm_(2, 0, 1)
+        s_emb_sim = s_emb_sim.renorm_(2, 0, 1)  #normalize with pow 2, along dim 0, maxval of 1
 
         s_emb_sim_in = s_emb_sim[total_edges[:, 0]]
         print(s_emb_sim_in.shape, type)
@@ -96,18 +103,20 @@ class BlockNet(torch.nn.Module):
         g_emb = g_emb.renorm_(2,0,1)
         alpha = 1.0
         beta = 0.1
-        eta = 0.1
+        eta = 0.1 ##weight of the persistance diagram similitude
 
         g_emb_in = g_emb[total_edges[:, 0]]
         g_emb_out = g_emb[total_edges[:, 1]]
         g_sqdist = (g_emb_in - g_emb_out).pow(2)
 
-##        pd_in = 
-##        pd_out = 
-##        pd_sim = 
         ##########
+        ##pdgm_sim = 
+        ##########
+        print(g_sqdist.shape)
+        print(d_sim.shape)
 
-        sqdist = self.leakyrelu(self.linear_1(torch.cat((alpha * g_sqdist, beta * d_sim, eta * ), dim=1)))
+        sqdist = self.leakyrelu(self.linear_1(torch.cat((alpha * g_sqdist, beta * d_sim), dim=1)))
+        #sqdist = self.leakyrelu(self.linear_1(torch.cat((alpha * g_sqdist, beta * d_sim, eta * pdgm_sim), dim=1)))
         sqdist = torch.abs(self.linear(sqdist)).reshape(-1)
         sqdist = torch.clamp(sqdist, min=0, max=40)
         prob = 1. / (torch.exp((sqdist - 2.0) / 1.0) + 1.0)
@@ -170,15 +179,21 @@ def call(data,name,num_features,num_classes):
     else:
         val_prop = 0.05
         test_prop = 0.1
-    train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false = get_edges_split(data, val_prop = val_prop, test_prop = test_prop)
+    train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false, train_edges_tda, train_edges_neg_tda, val_edges_tda, val_edges_neg_tda, test_edges_tda, test_edges_neg_tda = get_edges_split(data, val_prop = val_prop, test_prop = test_prop)
     total_edges = np.concatenate((train_edges,train_edges_false,val_edges,val_edges_false,test_edges,test_edges_false))
+    total_edges_tda = np.concatenate((train_edges_tda, train_edges_neg_tda, val_edges_tda, val_edges_neg_tda, test_edges_tda, test_edges_neg_tda))
+
     data.train_pos,data.train_neg = len(train_edges),len(train_edges_false)
     data.val_pos, data.val_neg = len(val_edges), len(val_edges_false)
     data.test_pos, data.test_neg = len(test_edges), len(test_edges_false)
     data.total_edges = total_edges
+    data.total_edges_tda = total_edges_tda
+
     data.total_edges_y = torch.cat((torch.ones(len(train_edges)), torch.zeros(len(train_edges_false)), torch.ones(len(val_edges)), torch.zeros(len(val_edges_false)),torch.ones(len(test_edges)), torch.zeros(len(test_edges_false)))).long()
 
     # delete val_pos and test_pos
+    ##This is just to recover "direction" of edges, it might be the same to use "train_edges" 
+    ##It also guarantees that the training set will be positive samples regardless the sampling step
     edge_list = np.array(data.edge_index).T.tolist()
     for edges in val_edges:
         edges = edges.tolist()
@@ -192,11 +207,11 @@ def call(data,name,num_features,num_classes):
             edge_list.remove(edges)
             edge_list.remove([edges[1], edges[0]])
     data.edge_index = torch.Tensor(edge_list).long().transpose(0, 1)
-
+    print(train_edges.shape)
+    print(data.edge_index.shape, "<=====")
     # edge index sampling
-    random_edge_num = 2500
+    random_edge_num = 2500 ##TODO: check this paramater
     indices = np.random.choice((data.edge_index).size(1), (random_edge_num,), replace=False)
-    print(indices.shape)
     indices = np.sort(indices)
     sample_data_edge_index = data.edge_index[:, indices]
 
